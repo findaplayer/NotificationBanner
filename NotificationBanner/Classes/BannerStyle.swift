@@ -23,6 +23,7 @@ public enum BannerStyle: Int {
     case danger
     case info
     case none
+	case display
     case success
     case warning
 }
