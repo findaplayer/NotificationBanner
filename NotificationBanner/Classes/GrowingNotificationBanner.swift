@@ -19,6 +19,7 @@
 import UIKit
 import SnapKit
 
+@objcMembers
 public class GrowingNotificationBanner: BaseNotificationBanner {
     
     public enum IconPosition {
@@ -108,9 +109,9 @@ public class GrowingNotificationBanner: BaseNotificationBanner {
                 leftView: UIView? = nil,
                 rightView: UIView? = nil,
                 style: BannerStyle = .info,
-                colors: BannerColorsProtocol? = nil,
-                iconPosition: IconPosition = .center) {
-        
+                colors: BannerColorsProtocol? = nil) {
+		
+		let iconPosition = IconPosition.center
         self.leftView = leftView
         self.rightView = rightView
         
