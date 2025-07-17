@@ -20,7 +20,7 @@ import UIKit
 import SnapKit
 
 @objcMembers
-public class GrowingNotificationBanner: BaseNotificationBanner {
+open class GrowingNotificationBanner: BaseNotificationBanner {
     
     public enum IconPosition {
         case top
