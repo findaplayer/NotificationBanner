@@ -113,7 +113,7 @@ open class GrowingNotificationBanner: BaseNotificationBanner {
     /// Font used for the subtitle label
     internal var subtitleFont: UIFont = UIFont.systemFont(ofSize: 15.0)
 	
-	public init(title: String? = nil,
+	@objc public init(title: String? = nil,
 								  subtitle: String? = nil,
 								  leftView: UIView? = nil,
 								  rightView: UIView? = nil,
