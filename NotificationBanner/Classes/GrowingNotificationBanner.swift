@@ -113,22 +113,74 @@ open class GrowingNotificationBanner: BaseNotificationBanner {
     /// Font used for the subtitle label
     internal var subtitleFont: UIFont = UIFont.systemFont(ofSize: 15.0)
 	
-	@objc public convenience init(title: String? = nil,
-					  subtitle: String? = nil,
-	   leftView: UIView? = nil,
-	   rightView: UIView? = nil,
-	   style: BannerStyle = .info,
-	   colors: BannerColorsProtocol? = nil,
-	   sideViewSize: CGFloat = 24.0)
+	public init(title: String? = nil,
+								  subtitle: String? = nil,
+								  leftView: UIView? = nil,
+								  rightView: UIView? = nil,
+								  style: BannerStyle = .info,
+								  colors: BannerColorsProtocol? = nil)
 	{
-		self.init(title: title,
-				  subtitle: subtitle,
-				  leftView: leftView,
-				  rightView: rightView,
-				  style: style,
-				  colors: colors,
-				  iconPosition: .center,
-				  sideViewSize: sideViewSize)
+		self.leftView = leftView
+		self.rightView = rightView
+		self.sideViewSize = 24.0
+		
+		super.init(style: style, colors: colors)
+		
+		let labelsView = UIStackView()
+		labelsView.axis = .vertical
+		labelsView.spacing = innerSpacing
+		
+		let outerStackView = UIStackView()
+		outerStackView.spacing = padding
+		
+		outerStackView.alignment = .center
+		
+		if let leftView = leftView {
+			outerStackView.addArrangedSubview(leftView)
+			leftView.snp.makeConstraints { $0.size.equalTo(sideViewSize) }
+		}
+		
+		outerStackView.addArrangedSubview(labelsView)
+		
+		if let title = title {
+			titleLabel = UILabel()
+			titleLabel!.font = titleFont
+			titleLabel!.numberOfLines = 0
+			titleLabel!.textColor = .white
+			titleLabel!.text = title
+			titleLabel!.setContentHuggingPriority(.required, for: .vertical)
+			labelsView.addArrangedSubview(titleLabel!)
+		}
+		
+		if let subtitle = subtitle {
+			subtitleLabel = UILabel()
+			subtitleLabel!.font = subtitleFont
+			subtitleLabel!.numberOfLines = 0
+			subtitleLabel!.textColor = .white
+			subtitleLabel!.text = subtitle
+			if title == nil {
+				subtitleLabel!.setContentHuggingPriority(.required, for: .vertical)
+			}
+			labelsView.addArrangedSubview(subtitleLabel!)
+		}
+		
+		if let rightView = rightView {
+			outerStackView.addArrangedSubview(rightView)
+			rightView.snp.makeConstraints { $0.size.equalTo(sideViewSize) }
+		}
+		
+		contentView.addSubview(outerStackView)
+		outerStackView.snp.makeConstraints { (make) in
+			if #available(iOS 11.0, *) {
+				make.left.equalTo(safeAreaLayoutGuide).offset(padding)
+				make.right.equalTo(safeAreaLayoutGuide).offset(-padding)
+			} else {
+				make.left.equalToSuperview().offset(padding)
+				make.right.equalToSuperview().offset(-padding)
+			}
+			
+			make.centerY.equalToSuperview()
+		}
 	}
     
     public init(

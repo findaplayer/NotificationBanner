@@ -75,7 +75,7 @@ open class FloatingNotificationBanner: GrowingNotificationBanner {
     }
     
     public init(customView: UIView) {
-        super.init(style: .customView)
+		super.init(style: .customView)
         self.customView = customView
         
         contentView.addSubview(customView)
